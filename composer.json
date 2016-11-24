@@ -1,0 +1,39 @@
+{
+    "name": "gaw508/worker",
+    "version": "1.0.0",
+    "description": "PHP library for worker processes",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "George Webb",
+            "email": "george@webb.uno",
+            "homepage": "http://george.webb.uno"
+        }
+    ],
+    "require": {
+        "php": ">=5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gaw508\\Worker\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Gaw508\\Worker\\": "src/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8",
+        "squizlabs/php_codesniffer": "^2.6",
+        "jakub-onderka/php-parallel-lint": "^0.9.2",
+        "jakub-onderka/php-console-highlighter": "^0.3.2"
+    },
+    "scripts": {
+        "test": [
+            "parallel-lint . --exclude vendor",
+            "phpcs --standard=PSR2 --ignore=vendor/* .",
+            "phpunit"
+        ]
+    }
+}
