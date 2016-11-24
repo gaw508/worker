@@ -43,7 +43,7 @@ abstract class Worker
      */
     private function openProcessFile()
     {
-        $handle = fopen($this->process_file_path, 'r+');
+        $handle = fopen($this->process_file_path, 'c+');
         if (!$handle || !flock($handle, LOCK_EX)) {
             fclose($handle);
             return false;
@@ -82,8 +82,8 @@ abstract class Worker
         $current_pid = $this->getRunningPid();
         if (!empty($current_pid)) {
             // Check if process exists
-            exec('pgrep php', $php_pids);
-            array_map('trim', $php_pids);
+            exec('ps -A -o pid', $php_pids);
+            $php_pids = array_map('trim', $php_pids);
             if (in_array($current_pid, $php_pids)) {
                 return true;
             }
@@ -109,6 +109,7 @@ abstract class Worker
 
         // Current PID doesn't exist or isn't actually running, empty file and write out PID
         ftruncate($this->process_file_handle, 0);
+        fseek($this->process_file_handle, 0);
         fwrite($this->process_file_handle, getmypid());
 
         $this->closeProcessFile();
